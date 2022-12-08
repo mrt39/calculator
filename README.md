@@ -1,1 +1,1 @@
-A calculator app in JS for The Odin Project assignment
+# A calculator app in JS for The Odin Project assignment
