@@ -111,47 +111,15 @@ var currentoperation = ""
 const addbutton = document.querySelector("#add")
 addbutton.addEventListener('click', () => {
 
-    //after clicking on the "+" button once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on + repeatedly, the app needs to do nothing, 
-    //instead of adding the stored number over and over
-    if (lockdisplay === true && currentoperation == "ADD") {
+    let checkPause = operationSettings ("ADD")
+
+    if (checkPause === "pause here" ) {
         return
     }
 
-    //after clicking on an operation button "+,-,* or /" once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on +, the app needs to switch currentoperation to "ADD", 
-    else if (lockdisplay === true && (currentoperation == "SUBTRACT" || currentoperation == "MULTIPLY" || currentoperation == "DIVIDE")) {
-        currentoperation = "ADD" 
-        return ;
-    }
-
-    //if the user clicks on "+" button while current operation is something other than "add", finish that operation first, display result and then switch current operation to "add"
-    else if (lockdisplay === false && (currentoperation == "SUBTRACT" || currentoperation == "MULTIPLY" || currentoperation == "DIVIDE" )) {
-        num2 = numberDisplay.innerHTML
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-        currentoperation = "ADD"
-        return
-    }
-
-    
     currentoperation = "ADD"
 
-    if (operationTrigger === true) {
-        num2 = numberDisplay.innerHTML;
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-       }
-    
-    else {
-    num1 = numberDisplay.innerHTML;
-    operationTrigger = true;
-    lockdisplay = true
-    }
+    operate (currentoperation)
 
 
 });
@@ -161,47 +129,15 @@ addbutton.addEventListener('click', () => {
 const subtractbutton = document.querySelector("#subtract")
 subtractbutton.addEventListener('click', () => {
 
-    //after clicking on the "-" button once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on - repeatedly, the app needs to do nothing, 
-    //instead of adding the stored number over and over
-    if (lockdisplay === true && currentoperation == "SUBTRACT") {
+    let checkPause = operationSettings ("SUBTRACT")
+
+    if (checkPause === "pause here" ) {
         return
     }
 
-    //after clicking on an operation button "+,-,* or /" once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on -, the app needs to switch currentoperation to "SUBTRACT", 
-    else if (lockdisplay === true && (currentoperation == "ADD" || currentoperation == "MULTIPLY" || currentoperation == "DIVIDE")) {
-        currentoperation = "SUBTRACT" 
-        return ;
-    }
-
-    //if the user clicks on "-" button while current operation is something other than "subtract", finish that operation first, display result and then switch current operation to "subtract"
-    else if (lockdisplay === false && (currentoperation == "ADD" || currentoperation == "MULTIPLY" || currentoperation == "DIVIDE" )) {
-        num2 = numberDisplay.innerHTML
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-        currentoperation = "SUBTRACT"
-        return
-    }
-
-    
     currentoperation = "SUBTRACT"
 
-    if (operationTrigger === true) {
-        num2 = numberDisplay.innerHTML;
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-       }
-    
-    else {
-    num1 = numberDisplay.innerHTML;
-    operationTrigger = true;
-    lockdisplay = true
-    }
+    operate (currentoperation)
 
 
 });
@@ -210,46 +146,15 @@ subtractbutton.addEventListener('click', () => {
 const multiplybutton = document.querySelector("#multiply")
 multiplybutton.addEventListener('click', () => {
 
-    //after clicking on the "x" button once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on x repeatedly, the app needs to do nothing, 
-    //instead of adding the stored number over and over
-    if (lockdisplay === true && currentoperation == "MULTIPLY") {
+    let checkPause = operationSettings ("MULTIPLY")
+
+    if (checkPause === "pause here" ) {
         return
     }
 
-    //after clicking on an operation button "+,-,x or /" once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on x, the app needs to switch currentoperation to "MULTIPLY", 
-    else if (lockdisplay === true && (currentoperation == "ADD" || currentoperation == "SUBTRACT" || currentoperation == "DIVIDE")) {
-        currentoperation = "MULTIPLY" 
-        return ;
-    }
-
-    //if the user clicks on "x" button while current operation is something other than "MULTIPLY", finish that operation first, display result and then switch current operation to "MULTIPLY"
-    else if (lockdisplay === false && (currentoperation == "ADD" || currentoperation == "SUBTRACT"|| currentoperation == "DIVIDE" )) {
-        num2 = numberDisplay.innerHTML
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-        currentoperation = "MULTIPLY"
-        return
-        }
-    
     currentoperation = "MULTIPLY"
 
-    if (operationTrigger === true) {
-        num2 = numberDisplay.innerHTML;
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-       }
-    
-    else {
-    num1 = numberDisplay.innerHTML;
-    operationTrigger = true;
-    lockdisplay = true
-    }
+    operate (currentoperation)
 
 
 });
@@ -258,71 +163,75 @@ multiplybutton.addEventListener('click', () => {
 const dividebutton = document.querySelector("#divide")
 dividebutton.addEventListener('click', () => {
 
-    //after clicking on the "÷" button once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on ÷ repeatedly, the app needs to do nothing, 
-    //instead of adding the stored number over and over
-    if (lockdisplay === true && currentoperation == "DIVIDE") {
+    let checkPause = operationSettings ("DIVIDE")
+
+    if (checkPause === "pause here" ) {
         return
     }
 
-    //after clicking on an operation button "+,-,x or /" once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on ÷, the app needs to switch currentoperation to "DIVIDE", 
-    else if (lockdisplay === true && (currentoperation == "ADD" || currentoperation == "SUBTRACT" || currentoperation == "MULTIPLY")) {
-        currentoperation = "DIVIDE" 
-        return ;
-    }
-
-    //if the user clicks on "÷" button while current operation is something other than "DIVIDE", finish that operation first, display result and then switch current operation to "DIVIDE"
-    else if (lockdisplay === false && (currentoperation == "ADD" || currentoperation == "SUBTRACT"|| currentoperation == "MULTIPLY" )) {
-        num2 = numberDisplay.innerHTML
-        var operationresult = operate (num1, num2, currentoperation)
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true
-        currentoperation = "DIVIDE"
-        return
-        }
-    
     currentoperation = "DIVIDE"
 
-    if (operationTrigger === true) {
-        num2 = numberDisplay.innerHTML;
-        var operationresult = operate (num1, num2, currentoperation);
-        num1 = operationresult;
-        numberDisplay.innerHTML = operationresult;
-        lockdisplay = true;
-       }
-    
-    else {
-    num1 = numberDisplay.innerHTML;
-    operationTrigger = true;
-    lockdisplay = true;
-    }
-
+    operate (currentoperation)
 
 });
 
 
+function operationSettings (operation) {
 
-
-
-function operate (num1, num2, operation) {
-
-
-    if (operation == "ADD") {
-        result = parseFloat(num1) + parseFloat(num2)
+    //after clicking on the "÷" button once, the user is expected to click on a number
+    //instead of clicking on a number, if the user clicks on ÷ repeatedly, the app needs to do nothing, 
+    //instead of adding the stored number over and over
+    if (lockdisplay === true && currentoperation == operation) {
+        return "pause here";
     }
-    else if (operation == "SUBTRACT") {
-        result = parseFloat(num1) - parseFloat(num2)
+
+    //after clicking on an operation button "+,-,x or /" once, the user is expected to click on a number
+    //instead of clicking on a number, if the user clicks on ÷, the app needs to switch currentoperation to "DIVIDE", 
+    else if (lockdisplay === true && (currentoperation != operation && currentoperation != "")) {
+        currentoperation = operation
+        return "pause here";
     }
-    else if (operation == "MULTIPLY") {
-        result = parseFloat(num1) * parseFloat(num2)
+
+    //if the user clicks on "÷" button while current operation is something other than "DIVIDE", finish that operation first, display result and then switch current operation to "DIVIDE"
+    else if (lockdisplay === false && (currentoperation != operation && currentoperation != "")) {
+        num2 = numberDisplay.innerHTML
+        operate (currentoperation)
+        lockdisplay = true
+        currentoperation = operation
+        return "pause here";
     }
-    else if (operation == "DIVIDE") {
-        result = parseFloat(num1) / parseFloat(num2)
+
+
+}
+
+
+function operate (operation) {
+
+    if (operationTrigger === true) {
+        num2 = numberDisplay.innerHTML;
+
+        if (operation == "ADD") {
+            result = parseFloat(num1) + parseFloat(num2)
+        }
+        else if (operation == "SUBTRACT") {
+            result = parseFloat(num1) - parseFloat(num2)
+        }
+        else if (operation == "MULTIPLY") {
+            result = parseFloat(num1) * parseFloat(num2)
+        }
+        else if (operation == "DIVIDE") {
+            result = parseFloat(num1) / parseFloat(num2)
+        }
+        num1 = result;
+        numberDisplay.innerHTML = result;
+        lockdisplay = true;
     }
-    
-    return result;
+
+    else {
+        num1 = numberDisplay.innerHTML;
+        operationTrigger = true;
+        lockdisplay = true;
+        }
 
 }
 
