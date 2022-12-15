@@ -1,6 +1,6 @@
 /*
 -----------------------
-BUTTONS GETTING DISPLAYED ON CLICK
+DISPLAY SETTINGS (numbers getting displayed on click etc.)
 -----------------------
 */
 
@@ -40,22 +40,32 @@ clicked_button.forEach(button =>
         }
 
         //if the string has "." in any part of it, nothing happens when the user clicks on "." again
-        else if (numberDisplay.innerHTML.includes(".") === true && button.dataset.display === ".")
+        else if (numberDisplay.innerHTML.includes(".") === true && button.dataset.display === ".") {
 
             numberDisplay.innerHTML = numberDisplay.innerHTML
-            
+
+        }
 
         else{
             if (lockdisplay === true) {
                 numberDisplay.innerHTML = button.dataset.display
                 lockdisplay = false
             }
+            //if the displayed number is 17 characters, nothing happens when the user clicks on buttons again (same as windows calculator)
+            else if (numberDisplay.innerHTML.length == 17) {
+
+            numberDisplay.innerHTML = numberDisplay.innerHTML
+            
+            }
+            
             else {
                 numberDisplay.innerHTML+= button.dataset.display
+                checkExcessDisplay ()
             }
 
             
         }
+
 
         
 
@@ -74,6 +84,7 @@ acbutton.addEventListener('click', () => {
     num1 = 0
     num2 = 0
     currentoperation = ""
+    checkExcessDisplay ()
 
 });
 //if the clicked button is C, delete the last digit of the innerhtml of numberDisplay
@@ -87,8 +98,47 @@ cbutton.addEventListener('click', () => {
     if (numberDisplay.innerHTML === "") {
         numberDisplay.innerHTML = 0
     }
+    checkExcessDisplay ()
 
 }); 
+
+//if the display window has more than 12 characters, make the font smaller (5 times)
+function checkExcessDisplay () {
+
+    let numberCharSize = numberDisplay.innerHTML.length
+
+    //turns the displayed number into exponential (1.23e) after a character size limit
+    if (numberCharSize > 17) {
+        numberDisplay.innerHTML = Number.parseFloat(numberDisplay.innerHTML).toExponential(11);
+        document.getElementById("numberText").style.fontSize = "43.5px"
+    }   
+
+    if (numberCharSize == 13) {
+        document.getElementById("numberText").style.fontSize = "60px"
+    }
+    if (numberCharSize == 14) {
+        document.getElementById("numberText").style.fontSize = "56px"
+    }
+    if (numberCharSize == 15) {
+        document.getElementById("numberText").style.fontSize = "52px"
+    }
+    if (numberCharSize == 16) {
+        document.getElementById("numberText").style.fontSize = "49px"
+    }
+    if (numberCharSize == 17) {
+        document.getElementById("numberText").style.fontSize = "46px"
+    }
+
+    if (numberCharSize < 13) {
+        document.getElementById("numberText").style.fontSize = "65px"
+    }
+
+
+
+
+
+}
+
 
 /*
 -----------------------
@@ -246,6 +296,7 @@ function operate (operation) {
         }
         num1 = result;
         numberDisplay.innerHTML = result;
+        checkExcessDisplay ()
         lockdisplay = true;
     }
 
