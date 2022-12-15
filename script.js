@@ -97,6 +97,8 @@ ADD
 SUBTRACT
 MULTIPLY
 DIVIDE
+
+EQUALS BUTTON
 -----------------------
 */
 
@@ -172,6 +174,26 @@ dividebutton.addEventListener('click', () => {
     currentoperation = "DIVIDE"
 
     operate (currentoperation)
+
+});
+
+//if the clicked button is "=", if operatintrigger has been triggered before (if the user typed a number and clicked on an operation button before) run the current operation. 
+//otherwise, do nothing.
+const equalsbutton = document.querySelector("#equals")
+equalsbutton.addEventListener('click', () => {
+
+    if (operationTrigger = true) {
+        let checkPause = operationSettings (currentoperation)
+
+        if (checkPause === "pause here" ) {
+            return
+        }
+        operate (currentoperation)
+    }
+
+    else {
+        return
+    }
 
 });
 
