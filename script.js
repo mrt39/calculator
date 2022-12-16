@@ -4,13 +4,13 @@ DISPLAY SETTINGS (numbers getting displayed on click etc.)
 -----------------------
 */
 
-//this var defines if the user has clicked on an operation button. 
-//if they did, this will turn true and the next number input will not be added at the end of the displayed number
-//instead, it will create the first digit of a new number
+//var lockdisplay defines if the user has clicked on an operation button (+, -, x, ÷). 
+//if they did, lockdisplay turns true and the next number input doesn't get added at the end of the displayed number
+//instead, it creates the first digit of a new number
 var lockdisplay = false
 
 
-//we listen for click on buttons and we put it onto display
+//listen for click on buttons and put it onto display
 var numberDisplay = document.querySelector("#numberText")
 
 //if the clicked button is any of the buttons that has the "display" as one of their classes, add the dataset.display attribute of the HTML to the end of the number
@@ -20,20 +20,20 @@ clicked_button.forEach(button =>
     button.addEventListener('click', () => {
         console.log(button.dataset.display);
 
-        //if numberDisplay has only 0, we don't want the number to go like: 09123, we want it to go like 9123. so we delete the 0.
-        //if numberDisplay has only 0 and user clicks on ".", we want it to go like 0.123, so we add it into if condition as an exception 
+        //if numberDisplay has only 0, prevent number from having 0 in front (e.g. 0123) , so delete the 0.
+        //if numberDisplay has only 0 and user clicks on ".", numberDisplay should start with "0." (eg. 0.123), thus it's added here as an exception 
         if (numberDisplay.innerHTML === "0" && button.dataset.display != ".") {
 
             numberDisplay.innerHTML = button.dataset.display
         }
 
-        //if numberDisplay has only 0 and user clicks on ".", we want it to go like 0.123
+        //if numberDisplay has only 0 and user clicks on ".", numberDisplay should start with "0." (eg. 0.123)
         else if (numberDisplay.innerHTML === "0" && button.dataset.display === ".") {
 
             numberDisplay.innerHTML = "0."
         }
 
-        //the first number user clicks on, deletes the zero and puts that number in the first digit
+        //when the user clicks on a number, delete the zero and put that clicked number in the first digit
         else if (numberDisplay.innerHTML === "0") {
 
             numberDisplay.innerHTML = button.dataset.display
@@ -57,7 +57,7 @@ clicked_button.forEach(button =>
             numberDisplay.innerHTML = numberDisplay.innerHTML
             
             }
-            
+
             else {
                 numberDisplay.innerHTML+= button.dataset.display
                 checkExcessDisplay ()
@@ -74,7 +74,7 @@ clicked_button.forEach(button =>
     
 
 
-//if the clicked button is AC, turn the innerhtml of numberDisplay to zero
+//if the clicked button is AC, change the variables accordingly and turn the innerhtml of numberDisplay to zero  
 const acbutton = document.querySelector("#AC")
 acbutton.addEventListener('click', () => {
 
@@ -94,7 +94,7 @@ cbutton.addEventListener('click', () => {
 
     numberDisplay.innerHTML = numberDisplay.innerHTML.slice(0, -1)
 
-    //if after deletion, there is nothing in innerHTML, turn innerHTML into zero
+    //if after deletion, there is nothing in innerHTML, turn innerHTML into "0"
     if (numberDisplay.innerHTML === "") {
         numberDisplay.innerHTML = 0
     }
@@ -107,7 +107,7 @@ function checkExcessDisplay () {
 
     let numberCharSize = numberDisplay.innerHTML.length
 
-    //turns the displayed number into exponential (1.23e) after a character size limit
+    //turn the displayed number into exponential (1.23e) after the character size limit (17)
     if (numberCharSize > 17) {
         numberDisplay.innerHTML = Number.parseFloat(numberDisplay.innerHTML).toExponential(11);
         document.getElementById("numberText").style.fontSize = "43.5px"
@@ -159,7 +159,7 @@ var num2 = 0
 var currentoperation = ""
 
 
-//if the clicked button is "+", store the number in innerhtml into "num1" and run the add operation
+//if the clicked button is "+", check for the operationsettings and exceptions to see if a pause is required, then run the operation 
 const addbutton = document.querySelector("#add")
 addbutton.addEventListener('click', () => {
 
@@ -177,7 +177,7 @@ addbutton.addEventListener('click', () => {
 });
 
 
-//if the clicked button is "-", store the number in innerhtml into "num1" and run the subtract operation
+//if the clicked button is "-", check for the operationsettings and exceptions to see if a pause is required, then run the operation 
 const subtractbutton = document.querySelector("#subtract")
 subtractbutton.addEventListener('click', () => {
 
@@ -194,7 +194,7 @@ subtractbutton.addEventListener('click', () => {
 
 });
 
-//if the clicked button is "x", store the number in innerhtml into "num1" and run the multiply operation
+//if the clicked button is "x", check for the operationsettings and exceptions to see if a pause is required, then run the operation 
 const multiplybutton = document.querySelector("#multiply")
 multiplybutton.addEventListener('click', () => {
 
@@ -211,7 +211,7 @@ multiplybutton.addEventListener('click', () => {
 
 });
 
-//if the clicked button is "÷", store the number in innerhtml into "num1" and run the divide operation
+//if the clicked button is "÷", check for the operationsettings and exceptions to see if a pause is required, then run the operation 
 const dividebutton = document.querySelector("#divide")
 dividebutton.addEventListener('click', () => {
 
@@ -227,18 +227,20 @@ dividebutton.addEventListener('click', () => {
 
 });
 
-//if the clicked button is "=", if operatintrigger has been triggered before (if the user typed a number and clicked on an operation button before) run the current operation. 
-//otherwise, do nothing.
+//if the clicked button is "=", run the current operation only if operatintrigger has been triggered before (if the user typed a number and clicked on an operation button before) 
 const equalsbutton = document.querySelector("#equals")
 equalsbutton.addEventListener('click', () => {
 
-    if (operationTrigger = true) {
+    //also check for the operationsettings in case user clicks on other operation buttons 
+    if (operationTrigger === true) {
         let checkPause = operationSettings (currentoperation)
 
         if (checkPause === "pause here" ) {
             return
         }
+        else {
         operate (currentoperation)
+        }
     }
 
     else {
@@ -250,21 +252,21 @@ equalsbutton.addEventListener('click', () => {
 
 function operationSettings (operation) {
 
-    //after clicking on the "÷" button once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on ÷ repeatedly, the app needs to do nothing, 
-    //instead of adding the stored number over and over
+    //after user clicks on an operation button (+,-,x, ÷) once, the user is expected to click on a number
+    //instead of clicking on a number, if the user clicks on the same operation button repeatedly, do nothing. 
     if (lockdisplay === true && currentoperation == operation) {
         return "pause here";
     }
 
-    //after clicking on an operation button "+,-,x or /" once, the user is expected to click on a number
-    //instead of clicking on a number, if the user clicks on ÷, the app needs to switch currentoperation to "DIVIDE", 
+    //after user clicks on an operation button (+,-,x, ÷) once, the user is expected to click on a number
+    //instead of clicking on a number, if the user clicks on another operation button, the app switches currentoperation to the clicked operation 
     else if (lockdisplay === true && (currentoperation != operation && currentoperation != "")) {
         currentoperation = operation
         return "pause here";
     }
 
-    //if the user clicks on "÷" button while current operation is something other than "DIVIDE", finish that operation first, display result and then switch current operation to "DIVIDE"
+    //if the user clicks on a different operation button while ongoing operation is something else (user clicks on "1, +, 2 , -" consecutively), 
+    //finish the ongoing operation first (add operation in our example), display result and then switch current operation to clicked operation (subtract operation)
     else if (lockdisplay === false && (currentoperation != operation && currentoperation != "")) {
         num2 = numberDisplay.innerHTML
         operate (currentoperation)
@@ -276,7 +278,7 @@ function operationSettings (operation) {
 
 }
 
-
+//run the mathematical operation and change the innerhtml of numberdisplay with result
 function operate (operation) {
 
     if (operationTrigger === true) {
@@ -300,6 +302,7 @@ function operate (operation) {
         lockdisplay = true;
     }
 
+    //if entering number for the first time, don't run any operation, store the number
     else {
         num1 = numberDisplay.innerHTML;
         operationTrigger = true;
