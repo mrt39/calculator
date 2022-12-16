@@ -1,14 +1,8 @@
 /*
 -----------------------
-DISPLAY SETTINGS (numbers getting displayed on click etc.)
+DISPLAY SETTINGS 
 -----------------------
 */
-
-//var lockdisplay defines if the user has clicked on an operation button (+, -, x, ÷). 
-//if they did, lockdisplay turns true and the next number input doesn't get added at the end of the displayed number
-//instead, it creates the first digit of a new number
-var lockdisplay = false
-
 
 //listen for click on buttons and put it onto display
 var numberDisplay = document.querySelector("#numberText")
@@ -102,6 +96,25 @@ cbutton.addEventListener('click', () => {
 
 }); 
 
+//if the clicked button is plusminus, change the number to negative or positive accordingly
+const plusminusbutton = document.querySelector("#plusminus")
+plusminusbutton.addEventListener('click', () => {
+
+    if (numberDisplay.innerHTML === "0") {
+        return
+    }
+    else if (numberDisplay.innerHTML.charAt(0) === "-") {
+        numberDisplay.innerHTML = numberDisplay.innerHTML.substring(1);
+        checkExcessDisplay ()
+    }
+    else {
+        numberDisplay.innerHTML = "-" + numberDisplay.innerHTML
+        checkExcessDisplay ()
+    }
+
+
+}); 
+
 //if the display window has more than 12 characters, make the font smaller (5 times)
 function checkExcessDisplay () {
 
@@ -157,6 +170,13 @@ var operationTrigger = false
 var num1 = 0
 var num2 = 0
 var currentoperation = ""
+
+//var lockdisplay defines if the user has clicked on an operation button (+, -, x, ÷). 
+//if they did, lockdisplay turns true and the next number input doesn't get added at the end of the displayed number
+//instead, it creates the first digit of a new number
+var lockdisplay = false
+
+
 
 
 //if the clicked button is "+", check for the operationsettings and exceptions to see if a pause is required, then run the operation 

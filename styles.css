@@ -8,18 +8,6 @@
   background-color:antiquewhite;
 }
 
-#calculatorTextContainer {
-  display: flex;
-  justify-content: center;
-  
-}
-
-#calculatorText {
- font-weight: 800;
- font-size: 40px;
-}
-
-
 
 #numbersDisplayContainer {
   display: flex;
@@ -103,4 +91,8 @@
   background-color: #e0e0e0;
   color:#5a5a5a
 
+}
+
+.biggerbutton {
+  width: 250px;
 }
