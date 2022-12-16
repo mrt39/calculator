@@ -57,6 +57,7 @@
   justify-content: center;
   border-left: 10px solid #e0e0e0;
   border-right: 10px solid #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 #fifthRow {
@@ -73,7 +74,8 @@
   background-color: white;
   width: 125px;
   height: 75px;
-  border: 2px solid #e0e0e0;
+  border: 5px double #e0e0e0;
+  border-radius: 10px;
   font-size: 45px;
   display: flex;
   justify-content: center;
@@ -94,4 +96,14 @@
 
 .biggerbutton {
   width: 250px;
+  background-color: aliceblue;
+}
+
+.biggerbutton:hover {
+  background-color: lightcyan
+
+}
+
+.biggerbutton:active {
+  background-color: lightblue
 }
